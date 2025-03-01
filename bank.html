@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank App - Income & Expense Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 350px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background: green;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .balance {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        .transaction-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .income {
+            color: green;
+        }
+
+        .expense {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Bank App</h2>
+        <p class="balance">Balance: $<span id="balance">0</span></p>
+        <input type="number" id="amount" placeholder="Enter amount">
+        <select id="category">
+            <option value="Salary">Salary</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+        </select>
+        <button onclick="addIncome()">Add Income</button>
+        <button onclick="addExpense()">Add Expense</button>
+        <div class="transaction-list" id="transaction-list">
+            <h3>Transactions</h3>
+        </div>
+    </div>
+
+    <script>
+        let balance = 0;
+
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance;
+        }
+
+        function addTransaction(type, amount, category) {
+            const transactionList = document.getElementById('transaction-list');
+            const transaction = document.createElement('div');
+            transaction.classList.add('transaction', type === 'income' ? 'income' : 'expense');
+            transaction.innerHTML = `${category}: $${amount}`;
+            transactionList.appendChild(transaction);
+        }
+
+        function addIncome() {
+            let amount = parseFloat(document.getElementById('amount').value);
+            let category = document.getElementById('category').value;
+            if (!isNaN(amount) && amount > 0) {
+                balance += amount;
+                updateBalance();
+                addTransaction('income', amount, category);
+            }
+        }
+
+        function addExpense() {
+            let amount = parseFloat(document.getElementById('amount').value);
+            let category = document.getElementById('category').value;
+            if (!isNaN(amount) && amount > 0) {
+                balance -= amount;
+                updateBalance();
+                addTransaction('expense', amount, category);
+            }
+        }
+    </script>
+</body>
+
+</html>
